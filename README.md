@@ -28,8 +28,8 @@ The emphasis is on honest evaluation, using scaffold splits, and on stating clea
 
 | Target | Activities | Unique molecules | Paired WT/mutant compounds |
 |---|---|---|---|
-| EGFR | [ ] | [ ] | [ ] |
-| BRAF | [ ] | [ ] | [ ] |
+| EGFR |  |  |  |
+| BRAF |  |  |  |
 
 ## Methods
 - **Features:** Morgan fingerprints (radius 2, 2048 bits), RDKit.
@@ -45,15 +45,15 @@ The emphasis is on honest evaluation, using scaffold splits, and on stating clea
 ### Potency baseline
 | Target | Model | Split | RMSE | R² | Spearman |
 |---|---|---|---|---|---|
-| EGFR | Random forest | scaffold | [ ] | [ ] | [ ] |
-| EGFR | MLP | scaffold | [ ] | [ ] | [ ] |
-| BRAF | Random forest | scaffold | [ ] | [ ] | [ ] |
-| BRAF | MLP | scaffold | [ ] | [ ] | [ ] |
+| EGFR | Random forest | scaffold | | | |
+| EGFR | MLP | scaffold |  |  | |
+| BRAF | Random forest | scaffold |  |  |  |
+| BRAF | MLP | scaffold |  | |  |
 
 ### Resistance proxy (delta pIC50)
 | Target | Model | Split | RMSE | R² | Spearman |
 |---|---|---|---|---|---|
-| [ ] | [ ] | scaffold | [ ] | [ ] | [ ] |
+|  |  | scaffold |  |  |  |
 
 ## Limitations
 - Public ChEMBL data are noisy: IC50 values come from different assays and labs.
@@ -64,7 +64,7 @@ The emphasis is on honest evaluation, using scaffold splits, and on stating clea
 - No prospective experimental validation was done.
 
 ## How to reproduce
-*To be added once the scripts are finished and tested from a fresh clone.*
+*To be updated once the scripts are finished and tested from a fresh clone.*
 
 ## About
 Hyunjeong (Chloe) Jung, M.Sc. Computational Biology (UPM).
