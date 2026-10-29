@@ -1,0 +1,13 @@
+name: kinase-ml
+channels: [conda-forge, pytorch]
+dependencies:
+  - python=3.11
+  - rdkit
+  - pandas
+  - numpy
+  - scikit-learn
+  - pytorch
+  - matplotlib
+  - pip
+  - pip:
+      - chembl_webresource_client
