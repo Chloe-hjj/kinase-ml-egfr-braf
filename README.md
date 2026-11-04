@@ -37,7 +37,9 @@ clear limits.
 | EGFR (WT vs L858R,T790M) | 25,105 | 19,646 | 621 | +0.62 (-0.28 to +1.29) |
 | BRAF (WT vs V600E) | 10,831 | 9,105 | 302 | +0.31 (+0.05 to +0.68) |
 
-Unique molecules for the wild-type potency task: *to be updated*.
+Unique molecules for the wild-type potency task:
+- EGFR 9341 molecules
+- BRAF 2969 molecules
 
 ## Methods
 - **Features:** Morgan fingerprints (radius 2, 2048 bits), RDKit.
@@ -50,22 +52,40 @@ Unique molecules for the wild-type potency task: *to be updated*.
 - **Metrics:** RMSE, R², Spearman correlation, reported as mean and standard deviation
   across folds.
 
-## Results
-*To be updated.*
+## Results (random forest)
 
 ### Potency baseline (wild-type pIC50)
 | Target | Model | Split | RMSE | R² | Spearman |
 |---|---|---|---|---|---|
-| EGFR | Random forest | scaffold | | | |
-| EGFR | MLP | scaffold | | | |
-| BRAF | Random forest | scaffold | | | |
-| BRAF | MLP | scaffold | | | |
+| EGFR | Mean baseline | scaffold | 1.39 ± 0.10 | -0.01 ± 0.02 | n/a |
+| EGFR | Random forest | scaffold | 0.87 ± 0.05 | 0.60 ± 0.06 | 0.79 ± 0.04 |
+| EGFR | Random forest | random | 0.74 ± 0.04 | 0.72 ± 0.02 | 0.85 ± 0.01 |
+| BRAF | Mean baseline | scaffold | 1.33 ± 0.05 | -0.03 ± 0.03 | n/a |
+| BRAF | Random forest | scaffold | 0.70 ± 0.07 | 0.71 ± 0.07 | 0.84 ± 0.03 |
+| BRAF | Random forest | random | 0.60 ± 0.05 | 0.79 ± 0.03 | 0.89 ± 0.02 |
 
 ### Resistance proxy (delta pIC50)
 | Task | Model | Split | RMSE | R² | Spearman |
 |---|---|---|---|---|---|
-| EGFR delta | Random forest | scaffold | | | |
-| BRAF delta | Random forest | scaffold | | | |
+| EGFR delta | Mean baseline | scaffold | 1.20 ± 0.14 | -0.07 ± 0.11 | n/a |
+| EGFR delta | Random forest | scaffold | 0.83 ± 0.16 | 0.46 ± 0.22 | 0.70 ± 0.13 |
+| EGFR delta | Random forest | random | 0.71 ± 0.11 | 0.64 ± 0.10 | 0.80 ± 0.06 |
+| BRAF delta | Mean baseline | scaffold | 0.61 ± 0.16 | -0.11 ± 0.10 | n/a |
+| BRAF delta | Random forest | scaffold | 0.52 ± 0.12 | 0.17 ± 0.24 | 0.49 ± 0.21 |
+| BRAF delta | Random forest | random | 0.44 ± 0.06 | 0.46 ± 0.06 | 0.61 ± 0.04 |
+
+MLP results: *to be updated*.
+
+### What the resuts show??
+- Potency can be predicted from structure, even for new scaffolds. The random forest clearly
+  is better than the mean baseline for both kinases.
+- Random splits are pretty optimistic. Moving from a random to a scaffold-grouped split lowers
+  R² from 0.72 to 0.60 for EGFR and from 0.79 to 0.71 for BRAF, and raises the error.
+- The EGFR resistance proxy has learnable signal on new scaffolds (R² 0.46, Spearman 0.70),
+  with large variation between splits.
+- The BRAF V600E selectivity signal is weak on new scaffolds (R² 0.17 ± 0.24). The delta
+  values vary little (SD about 0.6), so they are close to the experimental noise level, and the
+  model generalises poorly to new chemistry.
 
 ## Limitations
 - Public ChEMBL data are noisy: IC50 values come from different assays and labs.
@@ -83,21 +103,21 @@ Unique molecules for the wild-type potency task: *to be updated*.
 - [x] Download ChEMBL data for EGFR and BRAF
 - [x] Explore data and count wild-type/mutant pairs (go/no-go)
 - [x] Build paired datasets
-- [ ] Wild-type potency dataset
-- [ ] Fingerprints and scaffold-grouped cross-validation
-- [ ] Random forest baseline
+- [x] Wild-type potency dataset
+- [x] Fingerprints and scaffold-grouped cross-validation
+- [x] Random forest baseline
 - [ ] PyTorch MLP
 - [ ] Interpretation (substructure highlighting)
 - [ ] Reproducibility check from a fresh clone
 
 ## How to reproduce
-*To be updated once the scripts are finished and tested from a fresh clone.*
-
 ```bash
 conda env create -f environment.yml
 conda activate kinase-ml
-python src/download.py       # ChEMBL download (can fail when the server is busy; retry or download the kinases separately!)
+python src/download.py (src/download_BRAF.py)      # ChEMBL download (can fail when the server is busy; retry or download the kinases separately!)
 python src/make_pairs.py
+python src/make_potency.py
+python src/cv_rf.py
 ```
 
 ## About
