@@ -4,24 +4,22 @@ from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import GroupKFold, KFold
-from features import fingerprints, scaffold
 
-def eva(df, target, split, n_splits = 5, seed = 0):
+from features import fingerprints, scaffold
+from splits import get_fold
+
+def eva(df, target, split, seed = 0):
     x = fingerprints(df["smiles"].tolist())
     y = df[target].to_numpy()
-    if split == "scaffold":
-        groups = df["smiles"].map(scaffold).to_numpy()
-        folds = GroupKFold(n_splits = n_splits).split(x, y, groups)
-    else:
-        folds = KFold(n_splits = n_splits, shuffle = True, random_state = seed).split(x)
-    
     rows = []
-    for k, (tr, te) in enumerate(folds):
+
+    for k, (tr, te, _) in enumerate(get_fold(df, split, seed)):
         models = [("mean baseline", DummyRegressor()),
                   ("random forest", RandomForestRegressor(n_estimators = 300, n_jobs=-1, random_state=seed))]
 
         for name, model in models:
-            model.fit(x[tr], y[tr]); pred = model.predict(x[te])
+            model.fit(x[tr], y[tr]); 
+            pred = model.predict(x[te])
             rows.append(dict(split = split, model = name, fold = k, 
 rmse = mean_squared_error(y[te], pred)**0.5, r2 = r2_score(y[te], pred), 
 spearman = spearmanr(y[te], pred)[0] if name == "random forest" else np.nan))
@@ -39,6 +37,8 @@ if __name__ == "__main__":
         df = pd.read_csv(path)
         for split in ["scaffold", "random"]:
             r = eva(df, target, split); r.insert(0, "task", label); allres.append(r)
+            print(label, split, "done")
+
     res = pd.concat(allres)
     res.to_csv("results/rf_cv_folds.csv", index = False)
     
