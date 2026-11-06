@@ -117,7 +117,7 @@ The std reflects variation between overlapping splits, so it underestimates true
 - [x] Fingerprints and scaffold-grouped cross-validation
 - [x] Random forest baseline
 - [x] PyTorch MLP
-- [ ] Interpretation (substructure highlighting)
+- [x] Interpretation (substructure highlighting)
 - [ ] Reproducibility check from a fresh clone
 
 ## How to reproduce
@@ -130,6 +130,8 @@ python src/make_potency.py
 python src/splis.py
 python src/cv_rf.py
 python src/cv_mlp.py
+python src/vis_results.py
+python src/vis_preds.py
 
 ```
 
