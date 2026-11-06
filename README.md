@@ -72,6 +72,17 @@ The std reflects variation between overlapping splits, so it underestimates true
 | BRAF delta | scaffold | 0.60 ± 0.08 | 0.50 ± 0.06 | 0.22 ± 0.21 | 0.44 ± 0.13 | 0.57 ± 0.07 | 0.02 ± 0.09 | 0.40 ± 0.17 |
 | BRAF delta | random | 0.61 ± 0.09 | 0.44 ± 0.06 | 0.46 ± 0.06 | 0.61 ± 0.04 | 0.57 ± 0.09 | 0.12 ± 0.03 | 0.51 ± 0.11 |
 
+![Distribution of delta pIC50](results/figures/fig1_delta_distribution.png)
+*Figure 1. The resistance proxy: potency change between mutant and wild type.*
+
+![Model comparison](results/figures/fig2_model_comparison.png)
+*Figure 2. R² on held-out scaffolds (mean ± std across splits). The mean baseline predicts the training average.*
+
+![Random vs scaffold splits](results/figures/fig3_random_vs_scaffold.png)
+*Figure 3. Random forest R² is higher with random splits than with scaffold-grouped splits.*
+
+![Predicted vs measured](results/figures/fig4_pred_vs_true.png)
+*Figure 4. Out-of-fold predictions (scaffold-grouped 5-fold); the diagonal is perfect prediction. R² is pooled over all folds.*
 
 ### What the resuts show??
 - Potency can be predicted from structure, even for new scaffolds. The random forest clearly
